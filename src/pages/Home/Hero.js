@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import RestaurantFood from "../../assets/restauranfood.jpg";
 export default function Hero() {
   return (
-    <header>
-      <article className="call-to-action">
+    <header className="primary-color-1">
+      <article className="call-to-action container">
         <section className="hero-text">
-          <h1>Little Lemon</h1>
+          <h1 className="text-yellow">Little Lemon</h1>
           <h2>Chicago</h2>
           <p className="subsection">
             We are a family owned Mediterranean restaurant, located on Maldove
@@ -18,10 +19,7 @@ export default function Hero() {
         </section>
 
         <section className="hero-image">
-          <img
-            src={require("../../assets/restaurantfood.png")}
-            alt="Little Lemon restaurant cuisine"
-          ></img>
+          <img src={RestaurantFood} alt="Little Lemon restaurant cuisine"></img>
         </section>
       </article>
     </header>

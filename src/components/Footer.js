@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer>
-      <menu>
+      <menu className="container">
         <li className="img-footer">
           <img
             src={require("../assets/footer-logo.png")}
