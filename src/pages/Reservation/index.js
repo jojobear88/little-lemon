@@ -1,21 +1,25 @@
 import { useReducer, useState } from "react";
-import { fetchAPI } from "../../api/bookingAPI";
+import { fetchAPI, submitAPI } from "../../api/bookingAPI";
 import Restaurant from "../../assets/restaurant.jpg";
+import { useNavigate } from "react-router-dom";
+
 function Reservation() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [guest, setGuest] = useState("");
   const [occasion, setOccasion] = useState("");
+  const navigate = useNavigate();
 
-  const output = initializeTimes();
-  const [availableTimes, dispatch] = useReducer(updateTimes, output);
+  let output;
+  initializeTimes();
+  const [availableTimes] = useReducer(updateTimes, output);
 
   function updateTimes(date) {
     return fetchAPI(date);
   }
 
   function initializeTimes() {
-    fetchAPI(new Date());
+    output = fetchAPI(new Date());
   }
 
   function handleDateChange(e) {
@@ -26,12 +30,21 @@ function Reservation() {
 
     updateTimes(date);
   }
+  function handleSubmit(e) {
+    e.preventDefault();
+    let formData = new FormData(e.target);
+    console.log(formData);
+    if (submitAPI(formData)) {
+      navigate("/confirm");
+    }
+    return false;
+  }
   return (
     <article className="reservation container">
       <section className="reservation-form">
         <h1>Reservation Form</h1>
-        <form>
-          <label for="res-date">Choose date</label>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <label htmlFor="res-date">Choose date</label>
           <input
             value={date}
             type="date"
@@ -39,18 +52,18 @@ function Reservation() {
             onChange={(e) => handleDateChange(e)}
           />
 
-          <label for="res-time">Choose time</label>
+          <label htmlFor="res-time">Choose time</label>
           <select
             id="res-time "
             value={time}
             onChange={(e) => setTime(e.target.value)}
           >
             {availableTimes.map((time) => (
-              <option>{time}</option>
+              <option key={time}>{time}</option>
             ))}
           </select>
 
-          <label for="guests">Number of guests</label>
+          <label htmlFor="guests">Number of guests</label>
           <input
             value={guest}
             type="number"
@@ -61,7 +74,7 @@ function Reservation() {
             onChange={(e) => setGuest(e.target.value)}
           />
 
-          <label for="occasion">Occasion</label>
+          <label htmlFor="occasion">Occasion</label>
           <select
             id="occasion"
             value={occasion}
